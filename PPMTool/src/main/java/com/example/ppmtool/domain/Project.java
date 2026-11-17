@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -37,6 +39,14 @@ public class Project {
     @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="project")
     @JsonIgnore     //nama za GET project ne treba lista svih taskova, nego nam treba samo ime, opis, datumi...
     private Backlog backlog;
+
+    //OneToMany with Sprint
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, mappedBy = "project", orphanRemoval = true)
+    //@JsonIgnore
+    private List<Sprint> sprints=new ArrayList<>();
+
+    private Integer sprintNumber=0;
+    private Boolean hasActiveSprint=false;
 
     public Project() {
     }
@@ -111,6 +121,30 @@ public class Project {
 
     public void setBacklog(Backlog backlog) {
         this.backlog = backlog;
+    }
+
+    public List<Sprint> getSprints() {
+        return sprints;
+    }
+
+    public void setSprints(List<Sprint> sprints) {
+        this.sprints = sprints;
+    }
+
+    public Integer getSprintNumber() {
+        return sprintNumber;
+    }
+
+    public void setSprintNumber(Integer sprintNumber) {
+        this.sprintNumber = sprintNumber;
+    }
+
+    public Boolean getHasActiveSprint() {
+        return hasActiveSprint;
+    }
+
+    public void setHasActiveSprint(Boolean hasActiveSprint) {
+        this.hasActiveSprint = hasActiveSprint;
     }
 
     @PrePersist

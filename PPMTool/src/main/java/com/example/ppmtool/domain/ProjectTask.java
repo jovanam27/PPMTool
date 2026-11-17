@@ -32,6 +32,12 @@ public class ProjectTask {
     private Date create_At;
     private Date update_At;
 
+
+    //ManyToOne with Sprint
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sprint_id", updatable = false)
+    private Sprint sprint;
+
     public ProjectTask() {
     }
 
@@ -121,6 +127,14 @@ public class ProjectTask {
 
     public void setBacklog(Backlog backlog) {
         this.backlog = backlog;
+    }
+
+    public Sprint getSprint() {
+        return sprint;
+    }
+
+    public void setSprint(Sprint sprint) {
+        this.sprint = sprint;
     }
 
     @PrePersist

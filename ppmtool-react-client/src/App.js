@@ -11,6 +11,10 @@ import UpdateProject from "./components/Project/UpdateProject";
 import ProjectBoard from "./components/ProjectBoard/ProjectBoard";
 import AddProjectTask from "./components/ProjectBoard/ProjectTasks/AddProjectTask";
 import UpdateProjectTask from "./components/ProjectBoard/ProjectTasks/UpdateProjectTask";
+import SprintDashboard from "./components/SprintDashboard";
+import AddSprint from "./components/Sprint/AddSprint";
+import UpdateSprint from "./components/Sprint/UpdateSprint";
+import SprintPTBoard from "./components/Sprint/SprintPTBoard";
 
 function App() {
   return (
@@ -28,6 +32,10 @@ function App() {
             path="/updateProjectTask/:backlog_id/:pt_id"
             component={UpdateProjectTask}
           />
+          <Route exact path="/sprintDashboard" component={SprintDashboard} />
+          <Route exact path="/addSprint" component={AddSprint} />
+          <Route exact path="/updateSprint/:s_id" component={UpdateSprint} />
+          <Route exact path="/sprintPTBoard/:s_id" component={SprintPTBoard} />
         </div>
       </Router>
     </Provider>

@@ -1,0 +1,62 @@
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { deleteSprint } from "../../actions/sprintActions";
+
+class SprintItem extends Component {
+  onDeleteClick = (sprintSequence) => {
+    this.props.deleteSprint(sprintSequence);
+  };
+
+  render() {
+    const { sprint } = this.props;
+    return (
+      <div className="container">
+        <div className="card card-body bg-light mb-3">
+          <div className="row">
+            <div className="col-md-2 ">
+              <div className="mb-4">{sprint.sprintSequence}</div>
+              <br />
+              <div className="mt-4">Status: {sprint.status}</div>
+            </div>
+            <div className="col-lg-6 col-md-4 col-8">
+              <h3>{sprint.name}</h3>
+              <p>{sprint.goal}</p>
+            </div>
+            <div className="col-md-4 d-none d-lg-block">
+              <ul className="list-group">
+                <Link to={`/sprintPTBoard/${sprint.sprintSequence}`}>
+                  <li className="list-group-item">
+                    <i className="fa fa-flag-checkered pr-1">
+                      {" "}
+                      Sprint Project Task Board
+                    </i>
+                  </li>
+                </Link>
+                <Link to={`/updateSprint/${sprint.sprintSequence}`}>
+                  <li className="list-group-item">
+                    <i className="fa fa-edit pr-1"> Update Sprint</i>
+                  </li>
+                </Link>
+
+                <li
+                  className="list-group-item"
+                  onClick={this.onDeleteClick.bind(this, sprint.sprintSequence)}
+                >
+                  <i className="fa fa-minus-circle"> Delete Sprint</i>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+SprintItem.propTypes = {
+  deleteSprint: PropTypes.func.isRequired,
+};
+
+export default connect(null, { deleteSprint })(SprintItem);

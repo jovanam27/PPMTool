@@ -25,4 +25,22 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
 
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleSprintDateException(SprintDateException ex){
+        SprintDateExceptionResponse exceptionResponse=new SprintDateExceptionResponse(ex.getMessage());
+        return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleSprintIdException(SprintIdException ex){
+        SprintIdExceptionResponse exceptionResponse=new SprintIdExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private final ResponseEntity<Object> handleSprintStatusException(SprintStatusException ex){
+        SprintStatusExceptionResponse exceptionResponse=new SprintStatusExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 }
