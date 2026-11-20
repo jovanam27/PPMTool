@@ -55,11 +55,21 @@ class ProjectBoard extends Component {
     BoardContent = boardAlgorithm(errors, project_tasks);
 
     return (
-      <div className="container">
-        <Link to={`/addProjectTask/${id}`} className="btn btn-primary mb-3">
-          <i className="fa fa-plus-circle"> Create Project Task</i>
-        </Link>
-        <br />
+      <div className="container pt-4">
+        <div
+          className="d-flex align-items-center mb-3"
+          style={{ justifyContent: "space-between" }}
+        >
+          <button
+            className="btn btn-light"
+            onClick={() => this.props.history.push("/dashboard")}
+          >
+            Back to Project Dashboard
+          </button>
+          <Link to={`/addProjectTask/${id}`} className="btn btn-primary ">
+            <i className="fa fa-plus-circle"> Create Project Task</i>
+          </Link>
+        </div>
         <hr />
         {BoardContent}
       </div>

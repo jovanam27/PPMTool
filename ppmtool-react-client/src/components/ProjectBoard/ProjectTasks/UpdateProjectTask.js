@@ -22,6 +22,7 @@ class UpdateProjectTask extends Component {
       projectIdentifier: "",
       projectSequence: "",
       create_At: "",
+      sprintSequence: "",
       errors: {},
     };
     this.onChange = this.onChange.bind(this);
@@ -48,6 +49,7 @@ class UpdateProjectTask extends Component {
       projectIdentifier,
       projectSequence,
       create_At,
+      sprintSequence,
     } = nextProps.project_task;
 
     this.setState({
@@ -60,6 +62,7 @@ class UpdateProjectTask extends Component {
       projectIdentifier,
       projectSequence,
       create_At,
+      sprintSequence,
     });
   }
 
@@ -79,6 +82,7 @@ class UpdateProjectTask extends Component {
       projectIdentifier: this.state.projectIdentifier,
       projectSequence: this.state.projectSequence,
       create_At: this.state.create_At,
+      sprintSequence: this.state.sprintSequence,
     };
     console.log(updatedTask);
     this.props.updateProjectTask(
@@ -97,12 +101,18 @@ class UpdateProjectTask extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link
+              {/* <Link
                 to={`/projectBoard/${backlog_id}`}
                 className="btn btn-light"
               >
                 Back to Project Board
-              </Link>
+              </Link> */}
+              <button
+                onClick={() => this.props.history.goBack()}
+                className="btn btn-light"
+              >
+                Back to Board
+              </button>
               <h4 className="display-4 text-center">Update Project Task</h4>
               <p className="lead text-center">
                 Project ID: {this.state.projectIdentifier} + Project Task ID:{" "}

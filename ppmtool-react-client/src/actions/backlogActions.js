@@ -10,7 +10,9 @@ export const addProjectTask =
   (backlog_id, projectTask, history) => async (dispatch) => {
     try {
       await axios.post(`/api/backlog/${backlog_id}`, projectTask);
-      history.push(`/projectBoard/${backlog_id}`);
+      projectTask.sprintSequence
+        ? history.push(`/sprintPTBoard/${projectTask.sprintSequence}`)
+        : history.push(`/projectBoard/${backlog_id}`);
       dispatch({
         type: GET_ERRORS,
         payload: {},
@@ -55,7 +57,7 @@ export const updateProjectTask =
   (backlog_id, pt_id, project_task, history) => async (dispatch) => {
     try {
       await axios.patch(`/api/backlog/${backlog_id}/${pt_id}`, project_task);
-      history.push(`/projectBoard/${backlog_id}`);
+      history.goBack();
       dispatch({
         type: GET_ERRORS,
         payload: {},
@@ -81,3 +83,5 @@ export const deleteProjectTask = (backlog_id, pt_id) => async (dispatch) => {
     });
   }
 };
+
+

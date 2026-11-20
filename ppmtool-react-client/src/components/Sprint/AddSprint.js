@@ -68,6 +68,8 @@ class AddSprint extends Component {
             >
               Back to Sprint Dashboard
             </button>
+            <br />
+            <br />
             <h4 className="display-4 text-center">Create Sprint Form</h4>
             <hr />
             <form onSubmit={this.onSubmit}>
@@ -122,7 +124,7 @@ class AddSprint extends Component {
                   onChange={this.onChange}
                 ></textarea>
               </div>
-              <h6>Stard Date</h6>
+              <h6>Start Date</h6>
               <div className="form-group">
                 <input
                   type="date"

@@ -26,11 +26,13 @@ class Header extends Component {
                 </a>
               </li>
               <li>
-                <Link to="/sprintDashboard" className="nav-link">Sprint Dashboard</Link>
+                <Link to="/sprintDashboard" className="nav-link">
+                  Sprint Dashboard
+                </Link>
               </li>
             </ul>
 
-            <ul className="navbar-nav ml-auto">
+            {/* <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <a className="nav-link" href="register.html">
                   Sing up
@@ -41,7 +43,7 @@ class Header extends Component {
                   Login
                 </a>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
       </nav>

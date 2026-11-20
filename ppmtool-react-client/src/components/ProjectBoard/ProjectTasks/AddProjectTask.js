@@ -9,6 +9,12 @@ class AddProjectTask extends Component {
   constructor(props) {
     super(props);
     const { id } = this.props.match.params;
+
+    const query = new URLSearchParams(this.props.location.search);
+    const sprintSequenceRaw = query.get("sprintSequence");
+    const sprintSequence = sprintSequenceRaw ? sprintSequenceRaw : null;
+    //ovako napisan uslov vratice null za sprintSequence null i "" jer se i on tretira kao falsy vrednost
+
     this.state = {
       summary: "",
       acceptanceCriteria: "",
@@ -16,6 +22,7 @@ class AddProjectTask extends Component {
       priority: 0,
       status: "",
       projectIdentifier: id,
+      sprintSequence: sprintSequence,
       errors: {},
     };
     this.onChange = this.onChange.bind(this);
@@ -41,27 +48,55 @@ class AddProjectTask extends Component {
       priority: this.state.priority,
       status: this.state.status,
     };
+
+    if (this.state.sprintSequence !== null) {
+      newTask.sprintSequence = this.state.sprintSequence;
+    }
+    console.log(newTask);
+
     this.props.addProjectTask(
       this.state.projectIdentifier,
       newTask,
       this.props.history
     );
-    // console.log(newTask);
+    console.log(newTask);
   }
 
   render() {
     const { id } = this.props.match.params;
-    const { errors } = this.state;
+    const { errors, sprintSequence } = this.state;
+    const isSprintTask = sprintSequence !== null;
+
+    console.log("URL search:", this.props.location.search);
+    console.log("sprintSequence:", sprintSequence);
+    console.log("isSprintTask:", isSprintTask);
+    console.log(
+      "Link ide na:",
+      isSprintTask ? `/sprintPTBoard/${sprintSequence}` : `/projectBoard/${id}`
+    );
+
     return (
       <div className="add-PBI">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link to={`/projectBoard/${id}`} className="btn btn-light">
-                Back to Project Board
+              {/* <Link to={`/projectBoard/${id}`} className="btn btn-light"> */}
+              <Link
+                to={
+                  isSprintTask
+                    ? `/sprintPTBoard/${sprintSequence}`
+                    : `/projectBoard/${id}`
+                }
+                className="btn btn-light"
+              >
+                {isSprintTask
+                  ? "Back to Sprint Project Task Board"
+                  : "Back to Project Board"}
               </Link>
+              <br></br>
+              <br />
               <h4 className="display-4 text-center">Add Project Task</h4>
-              <p className="lead text-center">Project Name + Project Code</p>
+              <hr />
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input

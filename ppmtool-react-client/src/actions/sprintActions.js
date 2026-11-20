@@ -1,4 +1,10 @@
-import { GET_SPRINT, GET_SPRINTS, DELETE_SPRINT, GET_ERRORS } from "./types";
+import {
+  GET_SPRINT,
+  GET_SPRINTS,
+  DELETE_SPRINT,
+  GET_ERRORS,
+  GET_UNASSIGNED_TASKS,
+} from "./types";
 import axios from "axios";
 
 export const createSprint = (sprint, history) => async (dispatch) => {
@@ -69,3 +75,65 @@ export const clearErrors = () => (dispatch) => {
     payload: {},
   });
 };
+
+export const getUnassignedTasks = (projectIdentifier) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `/api/backlog/tasks/unassignedTasks/${projectIdentifier}`
+    );
+    dispatch({
+      type: GET_UNASSIGNED_TASKS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    });
+  }
+};
+
+// export const assignTaskToSprint =
+//   (projectSequence, sprintSequence) => async (dispatch) => {
+//     try {
+//       await axios.patch(
+//         `/api/backlog/assign/${sprintSequence}/${projectSequence}`
+//       );
+//       dispatch(getSprint(sprintSequence));
+//       // Osvezi listu nepovezanih taskova (combobox)
+//       const projectIdentifier = getState().sprint.sprint.projectIdentifier;
+//       if (projectIdentifier) {
+//         await dispatch(getUnassignedTasks(projectIdentifier));
+//       }
+//     } catch (err) {
+//       dispatch({
+//         type: GET_ERRORS,
+//         payload: err.response.data,
+//       });
+//     }
+//   };
+
+export const assignTaskToSprint =
+  (projectSequence, sprintSequence) => async (dispatch, getState) => {
+    try {
+      await axios.patch(
+        `/api/backlog/assign/${sprintSequence}/${projectSequence}`
+      );
+
+      // Osveži sprint
+      await dispatch(getSprint(sprintSequence));
+
+      // Izvuci projectIdentifier iz Redux state-a
+      const projectIdentifier = getState().sprint.sprint.projectIdentifier;
+
+      // Osveži listu nepovezanih taskova
+      if (projectIdentifier) {
+        await dispatch(getUnassignedTasks(projectIdentifier));
+      }
+    } catch (err) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response ? err.response.data : { message: err.message },
+      });
+    }
+  };

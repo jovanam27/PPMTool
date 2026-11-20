@@ -73,9 +73,19 @@ class UpdateProject extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
+              <button
+                className="btn btn-light "
+                onClick={() => this.props.history.push("/dashboard")}
+              >
+                Back to Project Dashboard
+              </button>
+              <br />
+              <br />
               <h5 className="display-4 text-center">Update Project form</h5>
+
               <hr />
               <form onSubmit={this.onSubmit}>
+                <h6>Project Name</h6>
                 <div className="form-group">
                   <input
                     type="text"
@@ -92,6 +102,7 @@ class UpdateProject extends Component {
                     <div className="invalid-feedback">{errors.projectName}</div>
                   )}
                 </div>
+                <h6>Unique Project ID</h6>
                 <div className="form-group">
                   <input
                     type="text"
@@ -102,6 +113,7 @@ class UpdateProject extends Component {
                     disabled
                   />
                 </div>
+                <h6>Project Description</h6>
                 <div className="form-group">
                   <textarea
                     // className="form-control form-control-lg"

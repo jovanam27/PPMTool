@@ -52,6 +52,14 @@ class AddProject extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-8 m-auto">
+                <button
+                  className="btn btn-light"
+                  onClick={() => this.props.history.push("/dashboard")}
+                >
+                  Back to Project Dashboard
+                </button>
+                <br />
+                <br />
                 <h5 className="display-4 text-center">Create Project form</h5>
                 <hr />
                 <form onSubmit={this.onSubmit}>

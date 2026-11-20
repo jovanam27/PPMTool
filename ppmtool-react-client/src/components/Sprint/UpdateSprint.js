@@ -98,9 +98,12 @@ class UpdateSprint extends Component {
             >
               Back to Sprint Dashboard
             </button>
+            <br />
+            <br />
             <h4 className="display-4 text-center">Update Sprint form</h4>
             <hr />
             <form onSubmit={this.onSubmit}>
+              <h6>Project Identifier</h6>
               <div className="form-group">
                 <input
                   type="text"
@@ -112,6 +115,7 @@ class UpdateSprint extends Component {
                   disabled
                 ></input>
               </div>
+              <h6>Sprint Name</h6>
               <div className="form-group">
                 <input
                   type="text"
@@ -127,6 +131,7 @@ class UpdateSprint extends Component {
                   <div className="invalid-feedback">{errors.name}</div>
                 )}
               </div>
+              <h6>Goal</h6>
               <div className="form-group">
                 <textarea
                   type="text"
