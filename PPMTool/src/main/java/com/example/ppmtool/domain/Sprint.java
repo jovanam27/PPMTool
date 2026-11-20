@@ -29,6 +29,8 @@ public class Sprint {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date endDate;
     //@NotBlank(message = "Status is required")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private SprintStatus status;
 
     @Column(updatable = false, unique = true)
@@ -45,7 +47,8 @@ public class Sprint {
     private String projectIdentifier;
 
     //OneToMany with ProjectTask
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, mappedBy = "sprint", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, mappedBy = "sprint")//, orphanRemoval = true)
+
     private List<ProjectTask> tasks=new ArrayList<>();
 
     public Sprint() {

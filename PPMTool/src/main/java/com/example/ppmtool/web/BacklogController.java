@@ -61,4 +61,17 @@ public class BacklogController {
         return new ResponseEntity<String>("Project Task: '"+pt_id+"' was deleted successfully.", HttpStatus.OK);
     }
 
+    @PatchMapping("/assign/{sprintSequence}/{projectSequence}")
+    public ResponseEntity<?> assignTaskToSprint(@PathVariable String sprintSequence, @PathVariable String projectSequence) {
+        ProjectTask task = projectTaskService.assignTaskToSprint(projectSequence, sprintSequence);
+        return new ResponseEntity<>(task, HttpStatus.OK);
+    }
+
+    @GetMapping("tasks/unassignedTasks/{id}")
+    public Iterable<ProjectTask> getUnassignedTasks (@PathVariable String id){
+        return projectTaskService.getUnassignedTasks(id);
+    }
+
+
+
 }

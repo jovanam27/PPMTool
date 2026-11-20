@@ -1,6 +1,7 @@
 package com.example.ppmtool.services;
 
 import com.example.ppmtool.domain.Project;
+import com.example.ppmtool.domain.ProjectTask;
 import com.example.ppmtool.domain.Sprint;
 import com.example.ppmtool.domain.SprintStatus;
 import com.example.ppmtool.exceptions.ProjectIdException;
@@ -8,11 +9,14 @@ import com.example.ppmtool.exceptions.SprintDateException;
 import com.example.ppmtool.exceptions.SprintIdException;
 import com.example.ppmtool.exceptions.SprintStatusException;
 import com.example.ppmtool.repositories.ProjectRepository;
+import com.example.ppmtool.repositories.ProjectTaskRepository;
 import com.example.ppmtool.repositories.SprintRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -23,6 +27,9 @@ public class SprintService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private ProjectTaskRepository projectTaskRepository;
 
     public Sprint addNewSprint(Sprint sprint){
 //        if(sprint.getEndDate().before(sprint.getStartDate())){
@@ -58,11 +65,24 @@ public class SprintService {
         return sprint;
     }
 
+    @Transactional
     public void deleteSprintById(String s_id){
-        Sprint sprint=sprintRepository.findBySprintSequence(s_id);
-        if(sprint==null){
-            throw  new SprintIdException("Cannot delete Sprint with id: "+s_id+" because it doesn't exist.");
+        Sprint sprint = sprintRepository.findBySprintSequence(s_id);
+        if(sprint == null){
+            throw new SprintIdException("Cannot delete Sprint with id: " + s_id + " because it doesn't exist.");
         }
+
+        // 1. Pronađi sve taskove koji pripadaju ovom sprintu
+        List<ProjectTask> tasks = projectTaskRepository.findBySprint(sprint);
+
+        // 2. Prekini vezu: task ostaje u projektu, ali bez sprinta
+        for (ProjectTask task : tasks) {
+            task.setSprint(null);
+            task.setSprintSequence(null); // Očistite i string polje ako ga koristite
+            projectTaskRepository.save(task);
+        }
+
+        // 3. Tek sada je bezbedno obrisati sprint
         sprintRepository.delete(sprint);
     }
 

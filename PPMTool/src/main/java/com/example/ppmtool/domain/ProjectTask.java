@@ -1,5 +1,6 @@
 package com.example.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -19,6 +20,7 @@ public class ProjectTask {
     private String acceptanceCriteria;
     private String status;
     private Integer priority;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 
     //ManyToOne with Backlog
@@ -35,8 +37,11 @@ public class ProjectTask {
 
     //ManyToOne with Sprint
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sprint_id", updatable = false)
+    @JoinColumn(name = "sprint_id")
+    @JsonIgnore
     private Sprint sprint;
+
+    private String sprintSequence;
 
     public ProjectTask() {
     }
@@ -137,6 +142,14 @@ public class ProjectTask {
         this.sprint = sprint;
     }
 
+    public String getSprintSequence() {
+        return sprintSequence;
+    }
+
+    public void setSprintSequence(String sprintSequence) {
+        this.sprintSequence = sprintSequence;
+    }
+
     @PrePersist
     protected void onCreate(){
         this.create_At=new Date();
@@ -160,6 +173,7 @@ public class ProjectTask {
                 ", projectIdentifier='" + projectIdentifier + '\'' +
                 ", create_At=" + create_At +
                 ", update_At=" + update_At +
+                ", sprintSequence=" + sprintSequence +
                 '}';
     }
 }
